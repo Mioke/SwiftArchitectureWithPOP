@@ -4,28 +4,56 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - Realm (4.1.1):
-    - Realm/Headers (= 4.1.1)
-  - Realm/Headers (4.1.1)
-  - RealmSwift (4.1.1):
-    - Realm (= 4.1.1)
-  - RxCocoa (5.0.1):
+  - KMCache (0.1.9)
+  - MIOSwiftyArchitecture (1.0.2):
+    - MIOSwiftyArchitecture/AppDocker (= 1.0.2)
+    - MIOSwiftyArchitecture/Assistance (= 1.0.2)
+    - MIOSwiftyArchitecture/Networking (= 1.0.2)
+    - MIOSwiftyArchitecture/Persistance (= 1.0.2)
+    - MIOSwiftyArchitecture/RxExtension (= 1.0.2)
+  - MIOSwiftyArchitecture/AppDocker (1.0.2):
+    - MIOSwiftyArchitecture/Assistance
+    - Realm
+    - RealmSwift
+    - RxRealm
+    - RxSwift (~> 5.0)
+  - MIOSwiftyArchitecture/Assistance (1.0.2)
+  - MIOSwiftyArchitecture/Networking (1.0.2):
+    - Alamofire
+    - KMCache
+    - MIOSwiftyArchitecture/Assistance
+  - MIOSwiftyArchitecture/Persistance (1.0.2):
+    - FMDB
+    - MIOSwiftyArchitecture/Assistance
+  - MIOSwiftyArchitecture/RxExtension (1.0.2):
+    - MIOSwiftyArchitecture/Assistance
+    - MIOSwiftyArchitecture/Networking
+    - RxSwift (~> 5.0)
+  - Realm (10.7.5):
+    - Realm/Headers (= 10.7.5)
+  - Realm/Headers (10.7.5)
+  - RealmSwift (10.7.5):
+    - Realm (= 10.7.5)
+  - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
   - RxDataSources (4.0.1):
     - Differentiator (~> 4.0)
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
-  - RxRealm (2.0.0):
-    - RealmSwift (~> 4.0)
-    - RxSwift (~> 5.0)
-  - RxRelay (5.0.1):
+  - RxRealm (4.0.2):
+    - Realm (~> 10.2)
+    - RealmSwift (~> 10.2)
+    - RxCocoa (~> 5.1)
+    - RxSwift (~> 5.1)
+  - RxRelay (5.1.1):
     - RxSwift (~> 5)
-  - RxSwift (5.0.1)
+  - RxSwift (5.1.2)
 
 DEPENDENCIES:
   - Alamofire
   - FMDB
+  - MIOSwiftyArchitecture (from `./`)
   - RealmSwift
   - RxDataSources
   - RxRealm
@@ -36,6 +64,7 @@ SPEC REPOS:
     - Alamofire
     - Differentiator
     - FMDB
+    - KMCache
     - Realm
     - RealmSwift
     - RxCocoa
@@ -44,18 +73,24 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
 
+EXTERNAL SOURCES:
+  MIOSwiftyArchitecture:
+    :path: "./"
+
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  Realm: 25f0a8244cbb1c2271c922963ea8666fc2d8104d
-  RealmSwift: 9e2657b33764f80e4a4dffd6d440e24715782052
-  RxCocoa: e741b9749968e8a143e2b787f1dfbff2b63d0a5c
+  KMCache: 831bdf92c764325d149626d07ba8e75018167eac
+  MIOSwiftyArchitecture: 911abcc2fd130ad1b2b278a0e406bf4fa123796c
+  Realm: 06f5c67f87cb8c5f27b122218ce22e9a77314517
+  RealmSwift: b46535b52e69b9ed33912f0fcb3182ab0a5743ee
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
-  RxRealm: 900f5c7e6f0a2d6527b56eaf7283f3035ec1e8ba
-  RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
-  RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
+  RxRealm: cc14831d5527f10fbfe547d0922cae129a07ba9d
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
 
-PODFILE CHECKSUM: 5b6814d3dd5a2207d01fc116716c11722665a8b3
+PODFILE CHECKSUM: ffe6b4d309d74831ecda70f57ae19648f76f82c9
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1

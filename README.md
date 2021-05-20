@@ -1,17 +1,17 @@
 # SwiftArchitectureWithPOP
 A base architecture written in swift and protocol oriented. 
 
-### Install
+### Installation
 ##### Using cocoapods:
 ```ruby
-pod 'bais-ios'
+pod 'SwiftyArchitecture'
 # or choose on your need
-pod 'bais-ios/Persistance'
-pod 'bais-ios/Networking'
-pod 'bais-ios/RxExtension'
+pod 'SwiftyArchitecture/Persistance'
+pod 'SwiftyArchitecture/Networking'
+pod 'SwiftyArchitecture/RxExtension'
 ```
 ##### Manually
-Download `.zip` package and copy the `swiftAchitecture/Base` folder into you project.
+Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you project.
 
 ### What to provide
   
@@ -38,9 +38,9 @@ func handle(data: Any) throws -> Void {
 }
 ```
 
-- **ApiManager**
+- **API**
 
-  Now you can manager request with `ApiManager`, just sublass from `BaseApiManager` and conform to protocol `ApiInfoProtocol`. Only need to provide some infomation about the API and set where the callback is, you are already finished the configuration of an API.
+  Now you can manager request with `API<ApiInfoProtocol>`, creating a class conformed to `ApiInfoProtocol`, only need to provide some infomation about the API and set where the callback is, you are already finished the configuration of an API.  
   
 ```swift
     var apiVersion: String {
@@ -53,7 +53,7 @@ func handle(data: Any) throws -> Void {
         get { return mainServer }
     }
 ```
-  The BaseApiManager provide some basic method like:
+  The API provide some basic method like:
   
 ```swift
   public func loadData(with params: [String: Any]?) -> Void
@@ -90,6 +90,63 @@ func handle(data: Any) throws -> Void {
     }
   })
   ```
+  
+#### Data Center
+`SwiftyArchitecture` provides a data center, which can automatically manage your models, data and requests. This function is based on `Reactive Functional Programing`, and using `RxSwift`. The networking kit is using `API` and database is `Realm`.
+
+We provide a accessor called `DataAccessObject<Object>`, and all data or models can be read throught this DAO.
+
+Example:
+```swift
+final class User: Object {
+    @objc dynamic var userId: String = ""
+    @objc dynamic var name: String = ""
+}
+
+// read all users and display on table view.
+DataAccessObject<User>.all
+    .map { $0.sorted(by: <) }
+    .map { [AnimatableSectionModel(model: "", items: $0)] }
+    .bind(to: tableView.rx.items(dataSource: datasource))
+    .disposed(by: disposeBag)
+```
+
+For manage this `User` model, it must be conform to protocl `DataCenterManaged`, this protocol defines how data center should do with this model.
+
+```swift
+extension User: DataCenterManaged {
+    // defines how transform data from API to data base object.
+    static func serialize(data: User) throws -> User {
+        return data
+    }
+    // define data base object's type
+    typealias DatabaseObject = User
+    // define API's response type
+    typealias APIInfo = UserAPI
+}
+```
+
+And then you can update models throught request, and when data changed, the `Observable<User>` will notify observers the new model is coming. And data center will save the newest data to database. For developers of product, they should only need to forcus on models and actions. 
+
+```swift
+print("Show loading")
+
+let request = Request<User>()
+DataAccessObject<User>
+    .update(with: request)
+    .subscribe({ event in
+        switch event {
+        case .completed:
+            print("Hide loading")
+        case .error(let error as NSError):
+            print("Hide loading with error: \(error.localizedDescription)")
+        default:
+            break
+        }
+    })
+    .disposed(by: self.disposeBag)
+```
+  
 - **Rx supported**
 
 ApiManager provides an `Observable` for you, you can transfrom it or directly bind it to something:
@@ -170,10 +227,11 @@ api.rx.loadData(with: params)
 
 # TODO
 
-- Networking: ~~cache~~, origin data transform to Model or View's data, priority of request.
+- ~~Networking: ~~cache~~, origin data transform to Model or View's data, priority of request.~~ Done.
+- Mock of API's response.
 - Download and upload functions in API manager.
-- Persistance: transform data to model or View's data after query.
-- ~~Animations, Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc~~. (bais-ios won't provide those utilities, because base shouldn't have to.)
+- ~~Persistance: transform data to model or View's data after query.~~(don't need it now, using Realm)
+- ~~Animations, Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc~~. (SwiftyArchitecture won't provide those utilities, because base shouldn't have to.)
 - Refactoring, more functional and reative. Considering to use `Rx` or `ReactiveSwift`. Fully use genericity.
   
 # License
